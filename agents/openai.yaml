@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Title Curator"
+  short_description: "Summarize task goals into clear, useful titles"
+  default_prompt: "Use $codex-title-curator to review and update the titles of my active Codex tasks from the last 30 days."

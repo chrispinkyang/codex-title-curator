@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.venv/
+.env
+.env.*
+*.sqlite*
+*.db
+*.jsonl
+state.json
+title-maintenance-state.json
+title-refresh-*/
+runtime/
+audit/
+dist/
