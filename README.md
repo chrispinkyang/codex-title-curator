@@ -1,19 +1,19 @@
-在 CodeX 当中，我发现 CodeX 对于标题的内容生成不够动态化。仅仅依靠第一条消息，随着整个聊天列表的继续，第一条消息的 summary 很可能总结不了当前会话表达的具体内容。
-
-所以我做了这么一个 skill。安装上之后，它就可以实时动态地在你闲暇时扫描近期的一些会话，并根据最新的聊天内容总结出新标题。
-
-我自己亲自用下来，确实更容易找到原有的会话了。相信这个 feature 很快就会成为 CodeX 官方指定的 feature 之一，大家也可以试一试. 
-
 # Codex Title Curator
 
-**让任务标题说明你正在做什么。** 根据会话实际目标整理 Codex 标题，支持一次性整理和用户主动开启的闲时维护。
+**让任务标题跟上会话的实际内容，方便找回之前的工作。**
 
-[English](#english) · [使用规则](SKILL.md) · [闲时自动化](references/idle-maintenance.md)
+[English](README.en.md) · [使用规则](SKILL.md) · [闲时维护](references/idle-maintenance.md) · [反馈问题](https://github.com/chrispinkyang/codex-title-curator/issues)
+
+用 Codex 时，我发现有些会话已经聊到了新的具体目标，标题却还停留在开头那句话。所以我整理了这个 skill，让 Codex 根据原始需求和近期内容，重新概括任务标题。我自己用下来，更容易找到之前的会话了。
+
+![标题整理前后对比：三个虚构示例](assets/title-curator-zh.png)
+
+*图中均为虚构示例，是效果示意，不是应用截图。*
 
 ## 有什么用
 
 - 从首次需求和近期内容概括主题，修正截断首句、裸链接和过时标题。
-- 保留已经清楚的标题，以及用户手动改过的标题。
+- 保留已经清楚的标题、用户明确指定的标题，以及可识别的外部改名。
 - 按需整理最近 30 天的本机任务，记录可回退的新旧标题。
 - 可选：每小时检查，闲置至少 15 分钟后整理，每天最多完成一轮。成功时安静，用户回来即可看到结果。
 
@@ -27,9 +27,17 @@
 
 ## 安装与使用
 
-需要 **Codex 桌面会话提供读取及修改任务标题的工具**。自动化需要调度能力；辅助脚本需要 Python 3.9+。空闲检测目前支持 macOS，其他系统可手动使用。
+需要 **Codex 桌面会话提供任务列表、读取会话和修改标题的工具**。安装 skill 不会提供这些工具。自动化需要调度能力；辅助脚本需要 Python 3.9+。空闲检测目前支持 macOS，其他系统在具备任务管理工具时可手动使用。
 
-安装为个人 Skill：
+已安装 Node.js 时，可使用 skills CLI 安装为个人 skill：
+
+```sh
+npx skills add chrispinkyang/codex-title-curator --agent codex --skill codex-title-curator --global
+```
+
+CLI 安装成功不代表当前会话具有改名工具，第一次使用仍需检查能力。安装遥测与关闭方式见 [skills CLI 说明](https://skills.sh/docs/cli)。
+
+也可以使用 Git：
 
 ```sh
 mkdir -p ~/.agents/skills
@@ -38,7 +46,14 @@ git clone https://github.com/chrispinkyang/codex-title-curator.git ~/.agents/ski
 
 目录已存在时先检查现有安装。也可向 Codex 的 `$skill-installer` 提供本仓库链接。不同版本的技能目录可能不同，参见 [OpenAI 官方说明](https://learn.chatgpt.com/docs/customization/overview#skills)。
 
-在 Codex 中输入：
+第一次使用时，可以先查看建议：
+
+```text
+使用 $codex-title-curator，检查最近 30 天活跃任务的标题。
+先列出建议的新旧标题，不要修改。
+```
+
+需要直接整理时，在 Codex 中输入：
 
 ```text
 使用 $codex-title-curator，整理最近 30 天活跃任务的标题。
@@ -71,7 +86,13 @@ python3 -m unittest discover -s tests -v
 
 测试使用临时目录和合成数据库，不修改真实任务。运行时无需第三方 Python 包。
 
+## 反馈
+
+欢迎在 [Issues](https://github.com/chrispinkyang/codex-title-curator/issues) 反馈安装问题、缺失的工具，或整理后仍不好辨认的标题。请附上操作系统、Codex 版本和经过改写的虚构示例，不要上传真实会话内容。
+
 ## English
+
+[Full English guide: requirements, installation, and first use](README.en.md).
 
 A community skill that turns conversation goals into recognizable Codex task titles. It reads original requests and recent substantive turns, preserves useful and manually edited titles, and applies authorized changes through the app's title tool.
 
